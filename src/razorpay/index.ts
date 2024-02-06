@@ -1,3 +1,4 @@
+import { sign } from 'crypto';
 import { Response } from 'express';
 import { Request } from 'express';
 const express = require('express');
@@ -33,5 +34,24 @@ razorpayRouter.post('/payment', async(req: Request, res: Response)=>{
 //  WebHook URL for the payment gateway
 
 razorpayRouter.get('/webhook', async(req: Request, res: Response)=>{
-    
+    let secret = "gautham"
+    let reqBody = "",
+    signature = req.headers["x-razorpay-signature"]
+    req.on("data", (data)=>{
+        reqBody += data
+        console.log("Request Body :", reqBody)
+    })
+
+    req.on("end", (data: object)=>{
+        console.log("data is here :", data)
+        console.log("Signature is valid for the razorpay");
+        console.log(Razorpay.validatewebhookSignature(reqBody, signature, secret))
+
+
+        if(Razorpay.validateWebhookSignature(reqBody, signature, secret)){
+            console.log("Set Data to the database")
+        }else{
+            console.log("The data is wrong")
+        }
+    })
 })
