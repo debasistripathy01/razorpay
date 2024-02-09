@@ -1,10 +1,10 @@
-import express, { Express, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import { razorpayRouter } from "./razorpay";
 const cors = require('cors');
 dotenv.config();
 
-const app: Express = express();
+const app = express();
 const port = process.env.PORT || 3000;
 app.use(cors({ origin: "*" }))
 app.get("/", (req: Request, res: Response) => {
